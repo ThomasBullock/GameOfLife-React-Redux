@@ -1,0 +1,17 @@
+.tile {
+	border: dotted 1px $base;
+	background: $jet;
+	min-width: 24px;
+	min-height: 24px;
+	flex: 0 1 24px;
+	text-align: center;
+	font-size: modular-scale(-3);
+	vertical-align: center;
+	color: transparentize(red, .8);
+
+	@include elem('cell') {
+		background: $tumblr-grey;
+		color: $snapchat-yellow;
+	}
+	
+}

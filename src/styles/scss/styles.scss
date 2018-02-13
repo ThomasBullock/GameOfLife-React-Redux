@@ -1,0 +1,13 @@
+// import plugins
+
+@import './plugins/bourbon/bourbon';
+@import './plugins/base/base';
+@import './plugins/neat/neat';
+
+@import './mixins/BEM';
+
+@import './settings/variables';
+
+@import './components/Control';
+@import './components/Board';
+@import './components/Tile';

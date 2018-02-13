@@ -1,0 +1,9 @@
+.board {
+	display: flex;
+	flex-direction: column;
+	// flex-wrap: wrap;
+	
+	@include elem('row') {
+		display: flex;
+	}
+}

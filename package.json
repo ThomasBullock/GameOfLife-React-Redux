@@ -1,0 +1,29 @@
+{
+  "name": "game-of-life",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "redux": "^3.7.2",
+    "prop-types": "^15.6.0",
+    "react-redux": "^5.0.6",
+    "redux-thunk": "^2.2.0"
+  },
+  "devDependencies": {
+    "motwebdev-react-scripts": "1.0.19",
+    "node-sass-chokidar": "^0.0.3",
+    "react-dev-utils": "^5.0.0"
+  },
+  "scripts": {
+    "build-css": "node-sass-chokidar src/styles/scss -o src/styles/css",
+    "watch-css": "npm run build-css && node-sass-chokidar src/styles/scss -o src/styles/css --watch --recursive",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "precommit": "lint-staged",
+    "prepush": "CI=true react-scripts test --env=jsdom",
+    "storybook": "start-storybook -p 6006"
+  }
+}

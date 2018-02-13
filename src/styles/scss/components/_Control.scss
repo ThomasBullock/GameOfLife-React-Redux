@@ -1,0 +1,7 @@
+.control {
+	 display: flex;
+	 
+	 @include elem('sizes') {
+	 	display: flex; 
+	 }
+}
