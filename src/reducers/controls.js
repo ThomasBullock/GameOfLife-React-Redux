@@ -1,7 +1,7 @@
 
 const initialState = {
 	isPlaying: false,
-	interval: 50,
+	interval: 150,
 	timerId: null
 }
 

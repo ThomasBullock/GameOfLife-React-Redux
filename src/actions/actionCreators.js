@@ -30,3 +30,10 @@ export const step = () => {
 		type: 'STEP'
 	}
 }
+
+export const activateCell = (id) => {
+	return {
+		type: 'ACTIVATE_CELL',
+		id
+	}
+}

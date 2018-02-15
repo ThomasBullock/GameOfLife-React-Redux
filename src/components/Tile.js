@@ -1,10 +1,26 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { activateCell } from '../actions/actionCreators';
 
-const Tile = (props) => {
-	const { i, id, alive } = props;
-	return(
-		(!alive) ? (<div className="tile">{id}</div>) : (<div className="tile tile__cell" key={i}>{id}</div>)
-	)
+class Tile extends Component {
+	render() {
+		const { i, id, alive } = this.props;		
+		return(
+			(!alive) ? (<div className="tile" onClick={ () => this.props.activateCell(id) } >{id}</div>) : (<div className="tile tile__cell" key={i}>{id}</div>)
+		)
+	}
 }
 
-export default Tile;
+const mapStateToProps = (state) => {
+	return {
+		
+	}
+}
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		activateCell: (id) => dispatch(activateCell(id))
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Tile);

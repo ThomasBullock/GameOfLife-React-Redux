@@ -1,61 +1,48 @@
-import { cloneDeep } from 'lodash';
+import { cloneDeep, isEqual } from 'lodash';
 
 export const lifeCycle = (tiles) => {
 	// console.log(tiles)
 	const nextGeneration = cloneDeep(tiles);
-	const countLiveNeighbours = (x, y) => {
-		let neighbourCells = 0;
-		// const adjustY = (y === 0) ? tiles.length - 1 : y;
+	const getNeighbourLocations = (x, y) => {
 		let yNeg = y - 1;
 		let yPos = y + 1;
 		let xNeg = x - 1;
 		let xPos = x + 1;
+		// adjust for edge of board
 		if(y === 0) {
-			yNeg = tiles.length - 1;
+			yNeg = tiles.length - 1; 
 		} else if (y === tiles.length - 1) {
 			yPos = 0;
 		}
 		if(x === 0) {
-			xNeg = tiles[0].length - 1; 
+			xNeg = tiles[0].length - 1;  
 		} else if(x === tiles[0].length - 1) {
 			xPos = 0;
-		}
-		// console.log(xNeg, xPos, yNeg, yPos);
-		// top row
-		if(tiles[yNeg][xNeg].cell) {
-			neighbourCells++;
-		}
-		if(tiles[yNeg][x].cell) {
-			neighbourCells++;
-		}
-		if(tiles[yNeg][xPos].cell) {
-			neighbourCells++;
-		}
-		// sides
-		if(tiles[y][xNeg].cell) {
-			neighbourCells++;
-		}	
-		if(tiles[y][xPos].cell) {
-			neighbourCells++;
-		}
-		// bottom row
-		if(tiles[yPos][xNeg].cell) {
-			neighbourCells++;
-		}
-		if(tiles[yPos][x].cell) {
-			neighbourCells++;
-		}
-		if(tiles[yPos][xPos].cell) {
-			neighbourCells++;
-		}				
-		return neighbourCells;
-	} // end countLiveNeighbours
+		}		
+		// return an array containing all the cells neighbouring cells
+		return [ 
+			{x: xNeg, y: yNeg}, // top row
+			{x: x, y: yNeg},
+			{x: xPos, y: yNeg},
+			{x: xPos, y: y},  // right side
+			{x: xPos, y: yPos}, // bottom row
+			{x: x, y: yPos},
+			{x: xNeg, y: yPos},
+			{x: xNeg, y: y}  // left side
+		];
+	}
+
+	const countLiveNeighbours = (x, y) => {
+		return getNeighbourLocations(x, y).map( (loc) => tiles[loc.y][loc.x])
+		.reduce( (accum, next ) => {
+			return (next.cell) ? (accum + 1) : (accum); 
+		}, 0);
+	} 
 		
-		// cycle through rows with for loop for efficiency over map
-		for(let i = 0; i < tiles.length-1; i ++) {
-		// cycle through cells
+	// cycle through rows with for loop for efficiency over map
+	for(let i = 0; i < tiles.length; i ++) {
+	// cycle through cells
 		for(let j = 0; j <  tiles[i].length; j++) {
-			// console.log(tiles[i][j]);
 			// if cell is alive
 			if(tiles[i][j].cell === true) {
 				// count live neighbours
@@ -64,10 +51,10 @@ export const lifeCycle = (tiles) => {
 				if(neighbours < 2 || neighbours > 3) {
 					// console.log('killing cell')
 					nextGeneration[i][j].cell = false;
-				} 
-								
+				} 								
 			} else if(tiles[i][j].cell === false) {
 				const neighbours = countLiveNeighbours(j, i);
+				// console.log(neighbours);
 				if(neighbours === 3) {
 					nextGeneration[i][j].cell = true;
 				} else {
@@ -75,59 +62,16 @@ export const lifeCycle = (tiles) => {
 						nextGeneration[i][j].cell = false;
 					}
 			}
-
 		}		
-	}
-	// console.log(nextGeneration);
+	}	
 	return nextGeneration;
-
 }
 
-/// ***** tried map went back to for loop **** ////
-
-		// const nextGeneration =  tiles.map( (row, i, array ) => {
-		// 	return row.map( (tile, j) => {
-		// 		if(tile.cell === true) {
-		// 			// count live neighbours
-		// 			const neighbours = countLiveNeighbours(j, i);
-		// 			console.log(`cell is alive with ${neighbours} neighbour cells`);			
-					
-		// 			// Any live cell with fewer than two live neighbours dies, as if caused by underpopulation.
-		// 			if(neighbours < 2 || neighbours > 3) {
-		// 				console.log('killing cell')
-		// 				return {
-		// 					id: tile.id,
-		// 					cell: tile.cell = false,
-		// 				}
-		// 			} else {
-		// 				console.log('cell lives on!')
-		// 				return {
-		// 					id: tile.id,
-		// 					cell: tile.cell = true,
-		// 				}
-		// 			}
-									
-		// 		} else if(tile.cell === false) {
-		// 			const deadCellNeighbours = countLiveNeighbours(j, i);
-		// 			console.log(`cell is dead with ${deadCellNeighbours} neighbour cells`);		
-		// 			if(deadCellNeighbours === 3) {
-		// 				console.log('cell alive as if by reproduction');
-		// 				return {
-		// 					id: tile.id,
-		// 					cell: tile.cell = true,
-		// 				}
-		// 			} else {
-		// 				console.log('unchanged')
-		// 				return {
-		// 					id: tile.id,
-		// 					cell: tile.cell = false,
-		// 				}						
-		// 			}
-					
-		// 		}				
-		// 	})
-		// })
-		
-		// console.log(nextGeneration);
-		// return nextGeneration;
-					
+						
+export const activateCell = (tiles, id, size) => {
+	const col = id % size;
+	const row = (id - col) / (size);
+	// console.log(`row ==  ${id} - ${col} / ${size}` )
+	tiles[row][col].cell = true;
+	return cloneDeep(tiles);
+}

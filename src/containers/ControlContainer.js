@@ -3,11 +3,10 @@ import { instanceOf, func, bool } from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { changeSize, step, start, pause } from '../actions/actionCreators';
+import { changeSize, step, start, pause, reset } from '../actions/actionCreators';
 
 class ControlContainer extends Component {
 	startHandler() {
-		console.log(this.props.isPlaying)
 		if(this.props.isPlaying) {
 			clearInterval(this.props.timerId)
 			this.props.pause();
@@ -20,7 +19,7 @@ class ControlContainer extends Component {
 	
 	
 	render() {
-		const { changeSize, step } = this.props;
+		const { changeSize, step, reset } = this.props;
 		return(
 			<div className="control">
 				<button onClick={ () => this.startHandler() }>Play</button>
@@ -33,7 +32,13 @@ class ControlContainer extends Component {
 					</li>
 					<li>
 						<button onClick={ () => changeSize(40) }>Large</button>
-					</li>					
+					</li>
+					<li>
+						<button onClick={ () => step() }>Step</button>
+					</li>
+					<li>
+						<button onClick={ () => reset() }>Reset</button>
+					</li>											
 				</ul>
 			</div>
 		)
@@ -60,7 +65,8 @@ const mapDispatchToProps = (dispatch) => {
 		changeSize: (size) => dispatch(changeSize(size)),
 		step: () => dispatch(step()),
 		start: (timerId) => dispatch(start(timerId)),
-		pause: () => dispatch(pause())
+		pause: () => dispatch(pause()),
+		reset: () => dispatch(reset())		
 	}
 }
 
