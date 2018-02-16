@@ -7,7 +7,7 @@ import Board from '../components/Board';
 class BoardContainer extends Component {
 	render() {
 		return(
-			<div className="board">
+			<div className="board__container">
 				<Board tiles={this.props.tiles} />
 			</div>
 		)

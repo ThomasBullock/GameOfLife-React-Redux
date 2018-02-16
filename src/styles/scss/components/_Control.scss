@@ -1,7 +1,26 @@
 .control {
 	 display: flex;
-	 
+	 background: $oil;
+	 padding: $base-spacing / 2;
+	 justify-content: space-between;
+	 border-top-left-radius: 4px;
+	 border-top-right-radius: 4px;
 	 @include elem('sizes') {
 	 	display: flex; 
+	 }
+
+	 svg {
+	 	width: 18px;
+	 	height: 18px;
+
+	 	fill: $twitter-blue;
+	 }
+
+	 button {
+
+
+	 	&:active {
+
+	 	}
 	 }
 }

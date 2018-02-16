@@ -1,8 +1,18 @@
 .board {
+	margin: 0 auto;
 	display: flex;
 	flex-direction: column;
+	align-self: center;
+
 	// flex-wrap: wrap;
-	
+	// border-radius: $base-spacing;
+	@include elem('container') {
+		background: $black;
+		display: flex;
+		justify-content: center;
+		min-height: 80vh;
+	}
+
 	@include elem('row') {
 		display: flex;
 	}
