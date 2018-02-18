@@ -1,0 +1,49 @@
+.range-slider {
+	display: flex;
+	width: 80%;
+	flex: 0 1 25%;	
+	// flex-direction: row;
+	align-items: center;
+	
+
+	@include elem('label') {
+		color: lighten($twitter-blue, 25%);
+		margin-right: $base-spacing;
+		font-size: modular-scale(-1);
+    margin-bottom: 0;
+    		
+		@media all and (min-width : 800px) {
+			font-size: modular-scale(0);
+		}			
+	}
+
+	@include elem('input') {
+    appearance: none;
+    width: 100%; /* Full-width */
+    height: 12px; /* Specified height */
+    background: $charcoal; /* Grey background */
+    outline: none; /* Remove outline */
+    opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+    transition: .2s; /* 0.2 seconds transition on hover */
+    transition: opacity .2s;
+
+    
+		@media all and (min-width : 800px) {
+    	height: 18px; /* Specified height */
+		}		    
+    
+		&::-webkit-slider-thumb {
+	    appearance: none;
+	    width: 12px; /* Set a specific slider handle width */
+	    height: 12px; /* Slider handle height */
+	    background: lighten($twitter-blue, 25%); /* Green background */
+	    border-radius: 8px;
+	    cursor: pointer; /* Cursor on hover */
+
+			@media all and (min-width : 800px) {
+	    	height: 18px; /* Specified height */
+	    	width: 18px;
+			}			    			
+		}    		
+	}
+}

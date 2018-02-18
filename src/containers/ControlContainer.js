@@ -1,54 +1,63 @@
 import React, { Component } from 'react';
-import { instanceOf, func, bool } from 'prop-types';
-import { bindActionCreators } from 'redux';
+import { bool, number } from 'prop-types';
 import { connect } from 'react-redux';
 import IconPlay from '../components/icons/Play';
 import IconPause from '../components/icons/Pause';
 import IconNext from '../components/icons/Next';
 import IconReset from '../components/icons/Reset';
 
-import { changeSize, step, start, pause, reset } from '../actions/actionCreators';
+import { step, start, pause, reset, adjustSpeed  } from '../actions/actionCreators';
+
+import RangeSlider from './RangeSlider';
 
 class ControlContainer extends Component {
-	startHandler() {
+	constructor(props) {
+		super(props);
+			
+		this.rangeHandler = this.rangeHandler.bind(this);
+	}
+	
+	rangeHandler(e) {
+		this.props.adjustSpeed(parseInt(e.target.value, 10))
+	}
+	
+	startHandler() {	
+		const request = () => {
+			this.props.step();
+			clearInterval(timer);
+			timer = setInterval(request, this.props.interval);
+			this.props.start(timer);	
+		}
+		
 		if(this.props.isPlaying) {
 			clearInterval(this.props.timerId)
 			this.props.pause();
 		} else {
-			const timer = setInterval(this.props.step, this.props.interval)
-			this.props.start(timer);
-		}
-		// window.setInterval(this.props.step, this.props.interval)
+			var timer = setInterval(request, this.props.interval)
+		}	
 	}
 	
 	
 	render() {
-		const { changeSize, step, reset, isPlaying, size } = this.props;
+		const { step, reset, isPlaying, generation, interval } = this.props;
 		return(
-			<div className="control">
+			<div className="control control--top">
 				<div className="control__transport">
-					<button onClick={ () => this.startHandler() }>
+					<button className="control__btn" onClick={ () => this.startHandler() }>
 						{ (!isPlaying) ? (<IconPlay/>) : (<IconPause/>)
 						}
 					</button>
-					<button disabled={isPlaying} className="control__btn" onClick={ () => step() }>
+					<button className="control__btn" disabled={isPlaying} onClick={ () => step() }>
 						<IconNext />
 					</button>
 					<button className="control__btn" onClick={ () => reset() }>
 						<IconReset />
 					</button>
 				</div>
-				<ul className="control__sizes">
-					<li>
-						<button active={size === 20 }className="control__btn" onClick={ () => changeSize(20) }>Small</button>
-					</li>
-					<li>
-						<button className="control__btn" onClick={ () => changeSize(30) }>Medium</button>
-					</li>
-					<li>
-						<button className="control__btn" onClick={ () => changeSize(40) }>Large</button>
-					</li>										
-				</ul>
+				<div className="control__generation">
+					<span>Generation: {generation}</span>
+				</div>
+				<RangeSlider value={interval} step={75} min={75} max={525} rangeHandler={this.rangeHandler}/>				
 			</div>
 		)
 	}
@@ -56,7 +65,8 @@ class ControlContainer extends Component {
 
 ControlContainer.propTypes = {
 	isPlaying: bool.isRequired,
-	changeSize: func.isRequired
+	generation: number.isRequired,
+	interval: number.isRequired
 }
 
 
@@ -65,18 +75,19 @@ const mapStateToProps = (state) => {
 		isPlaying: state.controls.isPlaying,
 		interval: state.controls.interval,
 		timerId: state.controls.timerId,
-		size: state.board.size
+		size: state.board.size,
+		generation: state.board.generation
 	}
 }
 
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		changeSize: (size) => dispatch(changeSize(size)),
 		step: () => dispatch(step()),
 		start: (timerId) => dispatch(start(timerId)),
 		pause: () => dispatch(pause()),
-		reset: () => dispatch(reset())		
+		reset: () => dispatch(reset()),
+		adjustSpeed: (interval) => dispatch(adjustSpeed(interval)) 		
 	}
 }
 

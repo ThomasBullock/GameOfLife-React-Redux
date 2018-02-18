@@ -1,26 +1,91 @@
 .control {
-	 display: flex;
-	 background: $oil;
-	 padding: $base-spacing / 2;
-	 justify-content: space-between;
-	 border-top-left-radius: 4px;
-	 border-top-right-radius: 4px;
-	 @include elem('sizes') {
-	 	display: flex; 
-	 }
+	display: flex;
+	background: $oil;
+	padding: $base-spacing / 2;
+	justify-content: space-between;
+		 
+	@include mod('top') {
+		border-top-left-radius: 4px;
+		border-top-right-radius: 4px;
+	}
 
-	 svg {
-	 	width: 18px;
-	 	height: 18px;
+	@include mod('bottom') {
+		border-bottom-left-radius: 4px;
+		border-bottom-right-radius: 4px;
+		flex-wrap: wrap;
+		background: $oil;
 
-	 	fill: $twitter-blue;
-	 }
+		@media all and (min-width : 900px) {
+			flex-wrap: nowrap;		
+		}			    
+	}	 
+	 
+	@include elem('sizes') {
+		display: flex;
+		width: 100%;
+		justify-content: center; 
+		
+		@media all and (min-width : 900px) {
+			justify-content: flex-start;
+		}		 	 	
+	}
 
-	 button {
+	@include elem('presets') {
+		display: flex;
+		width: 100%;
+		justify-content: center;
+		margin-top: 1px;
+		background: $oil;		
+		
+		@media all and (min-width : 900px) {
+			justify-content: flex-end;
+			margin-top: 0;
+		}		 
+	}
 
 
-	 	&:active {
 
-	 	}
-	 }
+	@include elem('generation') {
+		color: $vapor;
+		display: flex;
+		
+		span {
+			align-self: center;
+			color: lighten($twitter-blue, 25%);
+			font-size: modular-scale(-1);
+			
+			@media all and (min-width : 900px) {
+				font-size: modular-scale(0);
+			}							
+		}
+	}
+	
+	@include elem('btn') {
+		color: lighten($twitter-blue, 25%);
+		margin-right: 1px;
+		font-size: modular-scale(-1);
+		
+			@media all and (min-width : 900px) {
+				font-size: modular-scale(0);
+			}
+
+		svg {
+		 	fill: lighten($twitter-blue, 25%);
+		 	width: 12px;
+		 	height: 12px;
+		 	
+			@media all and (min-width : 900px) {
+			 	width: 18px;
+			 	height: 18px;						
+			}		 			
+		}
+		
+		@include mod('active') {
+			background: shade($action-color, 30%);
+		}
+		
+	
+	}
+
+
 }

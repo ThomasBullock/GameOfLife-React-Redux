@@ -17,6 +17,13 @@ export const reset = () => {
 	}
 }
 
+export const adjustSpeed = (interval) => {
+	return {
+		type: 'ADJUST_SPEED',
+		interval
+	}
+}
+
 export const changeSize = (size) => {
 	return {
 		type: 'CHANGE_SIZE',
@@ -35,5 +42,12 @@ export const activateCell = (id) => {
 	return {
 		type: 'ACTIVATE_CELL',
 		id
+	}
+}
+
+export const loadPreset = (preset) => {
+	return {
+		type: 'LOAD_PRESET',
+		preset
 	}
 }

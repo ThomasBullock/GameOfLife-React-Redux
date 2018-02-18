@@ -1,14 +1,23 @@
 .tile {
 	border: solid 1px $oil;
 	background: $jet;
-	min-width: 20px;
-	min-height: 20px;
-	flex: 0 1 20px;
+	min-width: 8px;
+	min-height: 8px;
+	// flex: 0 1 16px;
+	padding: 2px;
+	// min-width: 4%;
+	// min-height: 4%;
+	// flex: 1 1 4%;
 	text-align: center;
-	font-size: modular-scale(-3);
-	vertical-align: center;
+	// font-size: modular-scale(-3);
 	// color: transparentize(red, .8);
 	color: transparent;
+
+
+	@media all and (min-width : 900px) {
+		min-width: 12px;
+		min-height: 12px;
+	}
 
 	@include elem('cell') {
 		// border: solid 1px transparentize($youtube-red, .5);

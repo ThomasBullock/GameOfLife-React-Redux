@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import BoardContainer from './containers/BoardContainer'; 
 import ControlContainer from './containers/ControlContainer'; 
-import Footer from './components/Footer'; 
+import FooterContainer from './containers/FooterContainer'; 
 
 class App extends Component {
 
@@ -13,7 +13,7 @@ class App extends Component {
         <div className="container">
           <ControlContainer />
           <BoardContainer />
-
+          <FooterContainer />
         </div>
       </div>
     );

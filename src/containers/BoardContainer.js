@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { instanceOf, func, bool, array } from 'prop-types';
+import { array } from 'prop-types';
 import { connect } from 'react-redux';
 
 import Board from '../components/Board';

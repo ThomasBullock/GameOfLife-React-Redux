@@ -1,4 +1,4 @@
-import { cloneDeep, isEqual } from 'lodash';
+import { cloneDeep } from 'lodash';
 
 export const lifeCycle = (tiles) => {
 	// console.log(tiles)
@@ -75,3 +75,4 @@ export const activateCell = (tiles, id, size) => {
 	tiles[row][col].cell = true;
 	return cloneDeep(tiles);
 }
+

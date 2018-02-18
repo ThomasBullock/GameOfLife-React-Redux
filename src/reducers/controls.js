@@ -18,7 +18,12 @@ const controls = (state = initialState, action) => {
 				timerId: null
 			});	
 		case 'RESET':
-			return state;						
+			return state;
+		case 'ADJUST_SPEED':
+			// console.log(state.timerId)
+			return Object.assign({}, state, {
+				interval: action.interval
+			});						
 		default:
 			return state;
 	}

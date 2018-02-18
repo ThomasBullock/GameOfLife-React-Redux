@@ -1,7 +1,8 @@
 import { lifeCycle, activateCell } from '../modules/lifeCycle';
+import {  getPreset } from '../modules/presets';
 
 const createCell = (j, i, size, reset) => {
-	const alive = Math.random() <= 0.3;
+	const alive = Math.random() <= 0.2;
 	// console.log('createCell size is ' + size)
 	return {
 		id: j + (i * size),
@@ -12,13 +13,12 @@ const createCell = (j, i, size, reset) => {
 const generateTiles = (size, reset) => {
 	// create array
 	// console.log(reset)
-	const tileArr = new Array;
+	const tileArr = [];
 	// add an array for each row size times
 	
 	for(let i = 0; i < size / 2; i++) {
-		tileArr[i] = new Array;
+		tileArr[i] = [];
 		for(let j = 0; j < size; j++) {
-			// console.log((reset) ? createCell(j, i, size, reset) : createCell(j, i, size) )
 			tileArr[i].push( (reset) ? createCell(j, i, size, reset) : createCell(j, i, size) );
 		}
 	}
@@ -26,44 +26,12 @@ const generateTiles = (size, reset) => {
 	return tileArr;
 }
 
-const clearTiles = (size) => {
-	console.log('in clear tile')
-	console.log(size)
-	const tileArr = new Array;
-	// add an array for each row size times
-	for(let i = 0; i < size / 2; i++) {
-		console.log('in clear tile for')
-		tileArr[i] = new Array;
-		for(let j = 0; j < size; j++) {
-			console.log('add a tile' )
-			tileArr[i].push( 
-				{
-					id: j + (i * size),
-					cell: false
-				}
-			);
-		}
-	}
-	return tileArr;
-}
-
-const turn = (tiles) => {
-	console.log(tiles);
-	return tiles.map( (row) => {
-		return row.map( (tile) => {
-			return {
-				id: tile.id,
-				cell: !tile.cell
-			}
-		})
-	})
-} 
-
-const size = 20;
+const size = 50;
 
 const initialState = {
 	size: size,
-	tiles: generateTiles(size)
+	tiles: generateTiles(size),
+	generation: 0
 }
 
 const board = (state = initialState, action) => {
@@ -78,19 +46,26 @@ const board = (state = initialState, action) => {
     case 'RESET': 
 			return Object.assign({}, state, {
         size: state.size,
-        tiles: generateTiles(state.size, true)
+        tiles: generateTiles(state.size, true), 
+        generation: 0
       });     	  
     case 'STEP':
-     // console.log('steppin')
+     	// console.log(JSON.stringify(state.tiles))
 			return Object.assign({}, state, {
         size: state.size,
-        tiles: lifeCycle(state.tiles)
+        tiles: lifeCycle(state.tiles),
+        generation: state.generation + 1
       });
     case 'ACTIVATE_CELL': 	   	
 			return Object.assign({}, state, {
         size: state.size,
         tiles: activateCell(state.tiles, action.id, state.size)
       });
+     case 'LOAD_PRESET':
+     	return Object.assign({}, state, {
+     		tiles: getPreset(action.preset, state.size),
+     		generation: 0
+     	}) 
 		default:
 			return state;
 	}
